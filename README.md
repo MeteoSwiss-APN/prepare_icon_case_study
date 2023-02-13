@@ -1,5 +1,12 @@
 # prepare_icon_case_study
-Prepare case studies for running the ICON model following the MeteoSwiss setup. 
+Prepare case studies for running the ICON model following the MeteoSwiss setup.
+
+## Description
+This script creates the analysis and boundary files for ICON simulations for a provided ICON grid. The boundaries are archived IFS forecasts interpolated onto a frame. The corresponding frame-grid is generated using the icontools remap functionality if none is determined by the user. Analyses are extracted from the COSMO archive.
+
+## requirements
+* fieldextra
+* spack (icontools)
 
 ## usage
 ``/path/to/prepare_case_study.sh YYMMDDHH HH``

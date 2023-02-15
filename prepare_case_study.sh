@@ -33,16 +33,13 @@ lateral_boundary_grid_file=""
 #  - fieldextra
 #  - scratch
 #  - spack
-if [[ `hostname` == nid* ]]; then
+if [[ `hostname` == balfrin ]]; then
     fieldextra=/users/tsm/manali/fieldextra/develop/bin/fieldextra_gnu_opt_omp
-    scr=/scratch/e1000/mch/$USER
 elif [[ `hostname` == tsa* ]]; then
     source $SPACK_ROOT/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/tsa/bin/fieldextra_gnu_opt_omp
-    scr=/scratch/$USER
 elif [[ `hostname` == daint* ]]; then
     fieldextra=/project/s83c/fieldextra/daint/bin/fieldextra_gnu_opt_omp
-    scr=/scratch/snx3000/$USER/
 else
     echo "No fieldextra executable specified for your machine."
     exit 1

@@ -29,20 +29,6 @@ grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/ICON-1E_DOM01.nc"
 lateral_boundary_grid_file=""
 #lateral_boundary_grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/lateral_boundary.grid.nc"
 
-# Install spack if spack if not available
-# TODO (DL: 15.02.2022): Fix spack installation once 
-if ! command -v spack &> /dev/null; then
-    echo "The spack package manager could not be found. Installing to scratch."
-    cd $SCRATCH
-    git clone --depth 1 --recurse-submodules --shallow-submodules -b dev_v0.18.1 git@github.com:C2SM/spack-c2sm.git
-    . spack-c2sm/setup-env.sh
-fi
-
-# Install icontools if needed
-if ! command -v $( spack load icontools ) &> /dev/null; then
-  spack install icontools
-fi
-
 # Define fieldextra
 if [[ $(hostname -s) == balfrin* ]]; then
     fieldextra=/users/oprusers/osm/bin/fieldextra
@@ -103,6 +89,24 @@ wd=${SCRATCH}/input_icon/$date
 mkdir -p $wd
 cd $wd
 #rm fx_prepare_??.nl
+
+# -----------------------------------------------
+# Install software
+# -----------------------------------------------
+
+# Install spack if spack if not available
+# TODO (DL: 15.02.2022): Fix spack installation once balfrin is back to normal
+if ! command -v spack &> /dev/null; then
+    echo "The spack package manager could not be found. Installing to scratch."
+    cd $SCRATCH
+    git clone --depth 1 --recurse-submodules --shallow-submodules -b dev_v0.18.1 git@github.com:C2SM/spack-c2sm.git
+    . spack-c2sm/setup-env.sh
+fi
+
+# Install icontools if needed
+if ! command -v $( spack load icontools ) &> /dev/null; then
+  spack install icontools
+fi
 
 # -----------------------------------------------
 # lateral boundary grid

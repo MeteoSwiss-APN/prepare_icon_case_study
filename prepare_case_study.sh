@@ -20,8 +20,8 @@
 # -----------------------------------------------
 
 # grid_file: complete icon grid file for domain
-#grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/ICON-1E_DOM01.nc"
-grid_file="/store/s83/tsm/ICON_INPUT/icon-ch2_dace/icon-ch2_DOM01.nc"
+grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/ICON-1E_DOM01.nc"
+#grid_file="/store/s83/tsm/ICON_INPUT/icon-ch2_dace/icon-ch2_DOM01.nc"
 
 # lateral_boundary_grid_file: subdomain covering only boundaries for LBC
 #  if specified as "", this file will be created with iconsub
@@ -29,17 +29,25 @@ grid_file="/store/s83/tsm/ICON_INPUT/icon-ch2_dace/icon-ch2_DOM01.nc"
 lateral_boundary_grid_file=""
 #lateral_boundary_grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/lateral_boundary.grid.nc"
 
-# machine-specific 
-#  - fieldextra
-#  - scratch
-#  - spack
-if [[ `hostname` == balfrin ]]; then
-    fieldextra=/users/tsm/manali/fieldextra/develop/bin/fieldextra_gnu_opt_omp
+# Install spack if spack if not available
+if ! command -v spack &> /dev/null; then
+    echo "The spack package manager could not be found. Installing to scratch."
+    cd $SCRATCH
+    git clone --depth 1 --recurse-submodules --shallow-submodules git@github.com:C2SM/spack-c2sm.git
+    . spack-c2sm/setup-env.sh
+fi
+
+# Define fieldextra
+if [[ $(hostname -s) == balfrin* ]]; then
+    fieldextra=/users/oprusers/osm/bin/fieldextra
+    PATH_FIELDEXTRA_RESOURCES="/users_global/osm/opr/config/resources"
 elif [[ `hostname` == tsa* ]]; then
     source $SPACK_ROOT/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/tsa/bin/fieldextra_gnu_opt_omp
+    PATH_FIELDEXTRA_RESOURCES="/project/s83c/fieldextra/tsa/resources"
 elif [[ `hostname` == daint* ]]; then
     fieldextra=/project/s83c/fieldextra/daint/bin/fieldextra_gnu_opt_omp
+    PATH_FIELDEXTRA_RESOURCES="/project/s83c/fieldextra/tsa/resources"
 else
     echo "No fieldextra executable specified for your machine."
     exit 1
@@ -99,7 +107,10 @@ if [[ "${lateral_boundary_grid_file}" == "" ]]; then
     echo "Produce grid file for lateral boundary with iconsub."
 
     # load icontools
-    spack load icontools
+    if ! command -v iconsub &> /dev/null; then
+      spack install icontools
+    fi
+    
 
     # write icontools namelist
 cat << EOF > iconsub_lateral_boundary.nl
@@ -161,11 +172,12 @@ cat << EOF >> fx_prepare_ic.nl
 ! using dictionary_icon. Therefore, both dictionaries have to be specified.
 !----------------------------------------------------------------------------------
 &GlobalResource
- dictionary            = "/project/s83c/fieldextra/tsa/resources/dictionary_icon.txt",
-                         "/project/s83c/fieldextra/tsa/resources/dictionary_cosmo.txt"
- grib_definition_path  = "/project/s83c/fieldextra/tsa/resources/eccodes_definitions_cosmo",
-                         "/project/s83c/fieldextra/tsa/resources/eccodes_definitions_vendor"
- grib2_sample          = "/project/s83c/fieldextra/tsa/resources/eccodes_samples/COSMO_GRIB2_default.tmpl"
+ dictionary            = "${PATH_FIELDEXTRA_RESOURCES}/dictionary_icon.txt",
+ dictionary            = "${PATH_FIELDEXTRA_RESOURCES}/dictionary_icon.txt",
+                         "${PATH_FIELDEXTRA_RESOURCES}/dictionary_cosmo.txt"
+ grib_definition_path  = "${PATH_FIELDEXTRA_RESOURCES}/eccodes_definitions_cosmo",
+                         "${PATH_FIELDEXTRA_RESOURCES}/eccodes_definitions_vendor"
+ grib2_sample          = "${PATH_FIELDEXTRA_RESOURCES}/eccodes_samples/COSMO_GRIB2_default.tmpl"
  icon_grid_description = "${grid_file}"
 /
 
@@ -317,11 +329,11 @@ cat << EOF >> fx_prepare_bc.nl
 ! using dictionary_icon. Therefore, both dictionaries have to be specified.
 !----------------------------------------------------------------------------------
 &GlobalResource
- dictionary            = "/project/s83c/fieldextra/tsa/resources/dictionary_icon.txt",
-                         "/project/s83c/fieldextra/tsa/resources/dictionary_ifs.txt"
- grib_definition_path  = "/project/s83c/fieldextra/tsa/resources/eccodes_definitions_cosmo",
-                         "/project/s83c/fieldextra/tsa/resources/eccodes_definitions_vendor"
- grib2_sample          = "/project/s83c/fieldextra/tsa/resources/eccodes_samples/COSMO_GRIB2_default.tmpl"
+ dictionary            = "${PATH_FIELDEXTRA_RESOURCES}/dictionary_icon.txt",
+                         "${PATH_FIELDEXTRA_RESOURCES}/dictionary_ifs.txt"
+ grib_definition_path  = "${PATH_FIELDEXTRA_RESOURCES}/eccodes_definitions_cosmo",
+                         "${PATH_FIELDEXTRA_RESOURCES}/eccodes_definitions_vendor"
+ grib2_sample          = "${PATH_FIELDEXTRA_RESOURCES}/eccodes_samples/COSMO_GRIB2_default.tmpl"
  icon_grid_description = "${grid_file}"
                          "${lateral_boundary_grid_file}"
 /

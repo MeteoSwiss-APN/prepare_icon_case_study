@@ -48,6 +48,10 @@ else
     exit 1
 fi
 
+if [[ ! -z "${JENKINS_DIR}" ]]; then
+  src=${JENKINS_DIR}
+fi
+
 # default leadtime
 default_lt=2
 
@@ -457,8 +461,8 @@ fi # leadtime > 0
 # -----------------------------------------------
 # run fieldextra
 # -----------------------------------------------
-#$fieldextra fx_prepare_ic.nl
-#$fieldextra fx_prepare_bc.nl
+$fieldextra fx_prepare_ic.nl
+$fieldextra fx_prepare_bc.nl
 
 # -----------------------------------------------
 # write useful output to screen

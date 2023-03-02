@@ -126,7 +126,7 @@ cat << EOF > iconsub_lateral_boundary.nl
 EOF
 
     # run icontools namelist
-    iconsub --nml iconsub_lateral_boundary.nl
+    `spack location -i icontools`/bin/iconsub --nml iconsub_lateral_boundary.nl
 
     # assign produced grid file
     lateral_boundary_grid_file="${wd}/lateral_boundary.grid.nc"

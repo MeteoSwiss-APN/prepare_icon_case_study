@@ -107,6 +107,7 @@ if [[ "${lateral_boundary_grid_file}" == "" ]]; then
     echo "Produce grid file for lateral boundary with iconsub."
 
     # load icontools
+    module load python
     spack load icontools
 
     # write icontools namelist

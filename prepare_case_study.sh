@@ -37,10 +37,11 @@ if [[ `hostname` == nid* ]]; then
     fieldextra=/users/tsm/manali/fieldextra/develop/bin/fieldextra_gnu_opt_omp
     scr=/scratch/e1000/mch/$USER
 elif [[ `hostname` == tsa* ]]; then
-    source $SPACK_ROOT/share/spack/setup-env.sh
+    source /project/g110/spack/user/admin-tsa/spack/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/tsa/bin/fieldextra_gnu_opt_omp
     scr=/scratch/$USER
 elif [[ `hostname` == daint* ]]; then
+    source /project/g110/spack/user/admin-daint/spack/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/daint/bin/fieldextra_gnu_opt_omp
     scr=/scratch/snx3000/$USER/
 else

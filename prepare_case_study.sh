@@ -110,6 +110,7 @@ if [[ "${lateral_boundary_grid_file}" == "" ]]; then
     module load python
     python --version
     spack load icontools
+    echo "Finished loading icontools"
 
     # write icontools namelist
 cat << EOF > iconsub_lateral_boundary.nl
@@ -464,8 +465,8 @@ fi # leadtime > 0
 # -----------------------------------------------
 # run fieldextra
 # -----------------------------------------------
-$fieldextra fx_prepare_ic.nl
-$fieldextra fx_prepare_bc.nl
+#$fieldextra fx_prepare_ic.nl
+#$fieldextra fx_prepare_bc.nl
 
 # -----------------------------------------------
 # write useful output to screen

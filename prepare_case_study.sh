@@ -108,6 +108,7 @@ if [[ "${lateral_boundary_grid_file}" == "" ]]; then
 
     # load icontools
     module load python
+    python --version
     spack load icontools
 
     # write icontools namelist

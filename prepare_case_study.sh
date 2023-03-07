@@ -37,10 +37,12 @@ if [[ `hostname` == nid* ]]; then
     fieldextra=/users/tsm/manali/fieldextra/develop/bin/fieldextra_gnu_opt_omp
     scr=/scratch/e1000/mch/$USER
 elif [[ `hostname` == tsa* ]]; then
+    module load python
     source /project/g110/spack/user/admin-tsa/spack/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/tsa/bin/fieldextra_gnu_opt_omp
     scr=/scratch/$USER
 elif [[ `hostname` == daint* ]]; then
+    module load python
     source /project/g110/spack/user/admin-daint/spack/share/spack/setup-env.sh
     fieldextra=/project/s83c/fieldextra/daint/bin/fieldextra_gnu_opt_omp
     scr=/scratch/snx3000/$USER/
@@ -107,8 +109,6 @@ if [[ "${lateral_boundary_grid_file}" == "" ]]; then
     echo "Produce grid file for lateral boundary with iconsub."
 
     # load icontools
-    module load python
-    python --version
     spack load icontools
     echo "Finished loading icontools"
 

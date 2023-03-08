@@ -53,7 +53,7 @@ fi
 
 if [[ ! -z "${JENKINS_DIR}" ]]; then
   scr=${JENKINS_DIR}
-  echo "Jenkins dir:"
+  echo "--- Jenkins dir:"
   echo $scr
 fi
 
@@ -470,8 +470,8 @@ fi # leadtime > 0
 # -----------------------------------------------
 # run fieldextra
 # -----------------------------------------------
-#$fieldextra fx_prepare_ic.nl
-#$fieldextra fx_prepare_bc.nl
+$fieldextra fx_prepare_ic.nl
+$fieldextra fx_prepare_bc.nl
 
 # -----------------------------------------------
 # write useful output to screen

@@ -92,7 +92,7 @@ yy=${date:0:2}
 mm=${date:2:2}
 dd=${date:4:2}
 hh=${date:6:2}
-echo "Prepare case study for 20${yy} ${mm} ${dd}, ${hh} UTC: +${leadtime}h"
+echo "--- Prepare case study for 20${yy} ${mm} ${dd}, ${hh} UTC: +${leadtime}h"
 
 # -----------------------------------------------
 # create working directory
@@ -100,12 +100,9 @@ echo "Prepare case study for 20${yy} ${mm} ${dd}, ${hh} UTC: +${leadtime}h"
 wd=${scr}/input_icon/$date
 mkdir -p $wd
 cd $wd
-echo "current wd"
+echo "--- Working directory"
 echo "$(pwd)"
-echo "run ls"
-echo "$(ls)"
 
-exit 0
 #rm fx_prepare_??.nl
 
 # -----------------------------------------------
@@ -114,11 +111,11 @@ exit 0
 # if string is "" -> create lateral boundary grid
 if [[ "${lateral_boundary_grid_file}" == "" ]]; then
 
-    echo "Produce grid file for lateral boundary with iconsub."
+    echo "--- Produce grid file for lateral boundary with iconsub."
 
     # load icontools
     spack load icontools
-    echo "Finished loading icontools"
+    echo "--- Finished loading icontools"
 
     # write icontools namelist
 cat << EOF > iconsub_lateral_boundary.nl
@@ -143,7 +140,7 @@ EOF
     lateral_boundary_grid_file="${wd}/lateral_boundary.grid.nc"
 
 else
-    echo "Use ${lateral_boundary_grid_file} for lateral boundary."
+    echo "--- Use ${lateral_boundary_grid_file} for lateral boundary."
 
 fi
 
@@ -479,6 +476,8 @@ fi # leadtime > 0
 # -----------------------------------------------
 # write useful output to screen
 # -----------------------------------------------
-echo "Fieldextra namelist for regridding IC:" ${wd}/fx_prepare_ic.nl
-echo "Fieldextra namelist for regridding BC:" ${wd}/fx_prepare_bc.nl
-echo "LBC- and INI-files in:" ${wd}
+echo "--- Fieldextra namelist for regridding IC:"
+echo "${wd}/fx_prepare_ic.nl"
+echo "--- Fieldextra namelist for regridding BC:"
+echo "${wd}/fx_prepare_bc.nl"
+echo "--- LBC- and INI-files in:"

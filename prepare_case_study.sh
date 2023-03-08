@@ -52,9 +52,9 @@ else
 fi
 
 if [[ ! -z "${JENKINS_DIR}" ]]; then
-  src=${JENKINS_DIR}
+  scr=${JENKINS_DIR}
   echo "Jenkins dir:"
-  echo $src
+  echo $scr
 fi
 
 # default leadtime

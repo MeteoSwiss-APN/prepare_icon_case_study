@@ -53,7 +53,10 @@ fi
 
 if [[ ! -z "${JENKINS_DIR}" ]]; then
   src=${JENKINS_DIR}
+  echo $src
 fi
+
+exit 0
 
 # default leadtime
 default_lt=2

@@ -53,10 +53,9 @@ fi
 
 if [[ ! -z "${JENKINS_DIR}" ]]; then
   src=${JENKINS_DIR}
+  echo "Jenkins dir:"
   echo $src
 fi
-
-exit 0
 
 # default leadtime
 default_lt=2
@@ -101,6 +100,12 @@ echo "Prepare case study for 20${yy} ${mm} ${dd}, ${hh} UTC: +${leadtime}h"
 wd=${scr}/input_icon/$date
 mkdir -p $wd
 cd $wd
+echo "current wd"
+echo "$(pwd)"
+echo "run ls"
+echo "$(ls)"
+
+exit 0
 #rm fx_prepare_??.nl
 
 # -----------------------------------------------

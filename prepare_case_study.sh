@@ -106,9 +106,7 @@ if ! command -v spack &> /dev/null; then
 fi
 
 # Install icontools if needed
-if ! command -v $( spack load icontools ) &> /dev/null; then
-  spack install icontools
-fi
+spack load icontools ||   echo "==> installing icontools (may take a moment)"; spack install icontools
 
 # -----------------------------------------------
 # lateral boundary grid

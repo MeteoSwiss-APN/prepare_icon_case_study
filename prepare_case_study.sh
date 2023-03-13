@@ -21,7 +21,7 @@
 
 # grid_file: complete icon grid file for domain
 grid_file="/store/s83/tsm/ICON_INPUT/icon-1e_dev/ICON-1E_DOM01.nc"
-#grid_file="/store/s83/tsm/ICON_INPUT/icon-ch2_dace/icon-ch2_DOM01.nc"
+# grid_file="/store/s83/tsm/ICON_INPUT/icon-ch2_dace/icon-ch2_DOM01.nc"
 
 # lateral_boundary_grid_file: subdomain covering only boundaries for LBC
 #  if specified as "", this file will be created with iconsub
@@ -99,7 +99,9 @@ cd $wd
 if ! command -v spack &> /dev/null; then
     echo "The spack package manager could not be found. Installing to scratch."
     cd $SCRATCH
-    git clone --depth 1 --recurse-submodules --shallow-submodules -b dev_v0.18.1 git@github.com:C2SM/spack-c2sm.git
+    if [ ! -d spack-c2sm ]; then
+      git clone --depth 1 --recurse-submodules --shallow-submodules -b dev_v0.18.1 git@github.com:C2SM/spack-c2sm.git
+    fi
     . spack-c2sm/setup-env.sh
 fi
 
@@ -472,8 +474,8 @@ fi # leadtime > 0
 # -----------------------------------------------
 # run fieldextra
 # -----------------------------------------------
-#$fieldextra fx_prepare_ic.nl
-#$fieldextra fx_prepare_bc.nl
+$fieldextra fx_prepare_ic.nl
+$fieldextra fx_prepare_bc.nl
 
 # -----------------------------------------------
 # write useful output to screen
